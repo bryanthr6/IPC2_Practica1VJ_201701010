@@ -24,6 +24,7 @@ class ListaEnlazada:
                 actual = actual.siguiente
             actual.siguiente = nueva_tarea
         print(f"Tarea '{nombre}' agregada con ID {nueva_tarea.id} y estado 'pendiente'.")
+        print(" ")
 
     def cambiar_estado(self, id, nuevo_estado):
         actual = self.cabeza
@@ -50,15 +51,24 @@ class ListaEnlazada:
             actual = actual.siguiente
         print(f"Tarea con ID {id} no encontrada.")
 
-    def mostrar_tareas(self):
+    def obtener_tareas(self):
+        tareas = []
         actual = self.cabeza
-        if not actual:
-            print("No hay tareas pendientes.")
+        while actual:
+            tareas.append(actual)
+            actual = actual.siguiente
+        return tareas
+
+    def mostrar_tareas(self):
+        tareas = self.obtener_tareas()
+        if not tareas:
+            print("¡No hay tareas registradas!")
+            print(" ")
         else:
             print("Lista de tareas pendientes:")
-            while actual:
-                print(f"ID: {actual.id}, Nombre: {actual.nombre}, Estado: {actual.estado}")
-                actual = actual.siguiente
+            for tarea in tareas:
+                print(f"ID: {tarea.id}, Nombre: {tarea.nombre}, Descripción: {tarea.descripcion}, Estado: {tarea.estado}")
+                print(" ")
 
     def graficar_lista(self):
         dot = Digraph()
@@ -75,12 +85,22 @@ def mostrar_menu():
     lista_tareas = ListaEnlazada()
     
     while True:
+        # Mostrar tareas antes de las opciones del menú
+        tareas = lista_tareas.obtener_tareas()
+        if not tareas:
+            print("¡No hay tareas registradas!")
+        else:
+            print("Lista de tareas pendientes:")
+            for tarea in tareas:
+                print(f"ID: {tarea.id}, Nombre: {tarea.nombre}, Descripción: {tarea.descripcion}, Estado: {tarea.estado}")
+        
+        # Mostrar opciones del menú
         print("\nMenú de Administrador de Tareas")
         print("1. Agregar una nueva tarea")
         print("2. Asignar estado a 'En progreso' a una tarea")
         print("3. Terminar una tarea")
         print("4. Ver lista de tareas")
-        print("5. Ver información del Desarrollador")
+        print("5. Ver información del desarrollador")
         print("6. Salir")
         
         opcion = input("Seleccione una opción: ")
@@ -99,8 +119,12 @@ def mostrar_menu():
             lista_tareas.mostrar_tareas()
             lista_tareas.graficar_lista()
         elif opcion == '5':
-            print("Desarrollador: Bryant Herrera Rubio")
-            print("Carnet: 201701010")
+            print("**********************************")
+            print("*Datos del desarrollador:        *")
+            print("*Carnet: 201701010               *")
+            print("*Nombre: Bryant Herrera Rubio    *")
+            print("*Curso: IPC 2 sección: A         *")
+            print("**********************************")
         elif opcion == '6':
             print("Saliendo del programa.")
             break
